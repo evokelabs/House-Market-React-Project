@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import PrivateRoute from './components/PrivateRoute'
 import NavBar from './components/NavBar'
 import Explore from './pages/Explore'
 import ForgotPassword from './pages/ForgotPassword'
@@ -15,12 +17,15 @@ function App() {
           <Route path='/' element={<Explore />} />
           <Route path='/offers' element={<Offers />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/profile' element={<SignIn />} />
+          <Route path='/profile' element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} />
+          </Route>
           <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/sign-out' element={<SignUp />} />
+          <Route path='/sign-up' element={<SignUp />} />
         </Routes>
         <NavBar />
       </Router>
+      <ToastContainer />
     </>
   )
 }
