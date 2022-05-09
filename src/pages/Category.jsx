@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  limit,
+  startAfter
+} from 'firebase/firestore'
 import { db } from '../firebase.config'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
@@ -18,7 +26,12 @@ function Category() {
         const listingsRef = collection(db, 'listings')
 
         // Create Query
-        const q = query(listingsRef, where('type', '==', params.categoryName), orderBy('timestamp', 'desc'), limit(10))
+        const q = query(
+          listingsRef,
+          where('type', '==', params.categoryName),
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        )
 
         // Execute query
         const querySnap = await getDocs(q)
@@ -27,7 +40,7 @@ function Category() {
         querySnap.forEach((doc) => {
           return listings.push({
             id: doc.id,
-            data: doc.data(),
+            data: doc.data()
           })
         })
 
@@ -42,7 +55,11 @@ function Category() {
   return (
     <div className='category'>
       <header>
-        <p className='pageHeader'>{params.categoryName === 'rent' ? 'Places for rent' : 'Places for sale'}</p>
+        <p className='pageHeader'>
+          {params.categoryName === 'rent'
+            ? 'Places for rent'
+            : 'Places for sale'}
+        </p>
       </header>
       {loading ? (
         <Spinner />
@@ -51,7 +68,11 @@ function Category() {
           <main>
             <ul className='categoryListings'>
               {listings.map((listing) => (
-                <ListingItem listing={listing.data} id={listing.id} key={listing.id} />
+                <ListingItem
+                  listing={listing.data}
+                  id={listing.id}
+                  key={listing.id}
+                />
               ))}
             </ul>
           </main>
